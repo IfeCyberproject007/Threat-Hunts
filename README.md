@@ -99,7 +99,8 @@ DeviceLogonEvents
 ```
 I found evidence that there was an RDP connection from the IP of 159.26.106.98 which corelates to the timing of the malicious activity. The RDP connection was to the same AccountName, Kenji Sato, as the initial access in Port of entry incident.
 
-<img width="770" height="306" alt="image" src="https://github.com/user-attachments/assets/b02f9b93-9479-4350-ba91-c50d879960a8" />
+<img width="1442" height="538" alt="image" src="https://github.com/user-attachments/assets/77165d67-e182-4210-afb3-41e4e5f201a9" />
+
 
 
 ---
